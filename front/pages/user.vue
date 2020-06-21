@@ -5,7 +5,7 @@
             <input type="file" name="file" @change="handleFileChange">
         </div>
         <div>
-            <el-progress stroke-width="20" :text-inside="true" :percentage="uploadProgress"></el-progress>
+            <el-progress :text-inside="true" :percentage="uploadProgress"></el-progress>
         </div>
         <div>
             <el-button @click="uploadFile"> 上传</el-button>
@@ -21,6 +21,7 @@
 </style>
 <script>
 import { log } from 'util'
+import { resolve } from 'url';
 export default {
     async mounted(){
         // await this.$http.get('/user/info')
@@ -50,7 +51,52 @@ export default {
                 e.preventDefault()
             })
         },
+        async blobToString(blob){
+            return new Promise(resolve => {
+                const reader = new FileReader()
+                reader.onload = function(){
+                    const ret = reader.result.split('')
+                                .map(v=>v.charCodeAt()) //装换ANSI
+                                .map(v=>v.toString(16).toUpperCase()) //装换16进制
+                                .join('')
+                    resolve(ret)
+                }
+                reader.readAsBinaryString(blob)
+            })
+        },
+        async isGif(file){
+            // 47 49 46 38 39 61 or 47 49 46 38 37 61
+            const ret = await this.blobToString(file.slice(0, 6))
+            const isGif = (ret === '47 49 46 38 39 61') || (ret === '47 49 46 38 37 61')
+            return isGif
+        },
+        async isPng(file){
+            // 89 50 4E 47 0D 0A 1A 0A
+            const ret = await this.blobToString(file.slice(0, 8))
+            const isPng = ret === '89 50 4E 47 0D 0A 1A 0A'
+            return isPng
+        },
+        async isJPG(file){
+            // 89 50 4E 47 0D 0A 1A 0A
+            const start = await this.blobToString(file.slice(0, 2))
+            const end = await this.blobToString(file.slice(-2, file.size))
+            const isJPG = (start === 'FF D8') && (end === 'FF D9')
+            return isJPG
+        },
+        async isImage(file){
+            return this.isGif(file)
+        },
         async uploadFile(){
+            if(await this.isGif(this.file)) {
+                alert('是GIF格式')
+            }
+            if(await this.isJPG(this.file)) {
+                alert('是JPG格式')
+            }
+            if(await this.isPng(this.file)) {
+                alert('是PNG格式')
+            }
+            return
             const form = new FormData()
             form.append('file', 'file')
             form.append('name', this.file)
