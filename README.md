@@ -1,7 +1,12 @@
 # project-full
 nuxt vue axios egg Mongodb
 项目小结：
-
+  登录：/login
+  
+  注册：/register
+  
+  用户中心：/user
+  
   1.图片验证码 svgCaptcha.create({参数})
 
   2.邮箱验证码 nodemailer 邮箱服务器->注册邮箱
@@ -35,3 +40,6 @@ nuxt vue axios egg Mongodb
         },
       )
   3.axios管理token认证 
+  
+  4.图片上传
+    文件管理 fs-extra
