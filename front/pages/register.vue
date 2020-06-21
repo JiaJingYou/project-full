@@ -47,7 +47,7 @@ export default {
             rules:{
                 email:[
                     {required:true, message:"请输入邮箱"},
-                    {type:"email", message:"请输入正确的邮箱格式"},
+                    // {type:"email", message:"请输入正确的邮箱格式"},
                 ],
                 captcha:[
                     {required:true, message:"请输入验证码"}
@@ -86,15 +86,15 @@ export default {
                         passwd: md5(this.form.passwd),
                         captcha: this.form.captcha
                     }
-                    let ret = await this.$http.post('/user/register', obj);
-                    if(ret.code == 0){
+                    let ret = await this.$http.post('/api/user/register', obj);
+                    if(ret.data.code == 0){
                         this.$alert('注册成功', '成功', {
                             callback:() => {
                                 this.$router.push('/login')
                             }
                         })
                     }else {
-                        this.$message.error(ret.message)
+                        this.$alert( ret.data.message, '校验失败', {})
                     }
                 } else {
                     console.log('校验失败');

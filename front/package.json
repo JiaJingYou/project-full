@@ -14,6 +14,7 @@
   "dependencies": {
     "cross-env": "^5.2.0",
     "element-ui": "^2.4.11",
+    "fs-extra": "^9.0.1",
     "koa": "^2.6.2",
     "md5": "^2.2.1",
     "nuxt": "^2.0.0",
