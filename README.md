@@ -1,6 +1,10 @@
 # project-full
 nuxt vue axios egg Mongodb
+
+前后端运行 npm run dev
+
 项目小结：
+
   登录：/login
   
   注册：/register
@@ -43,4 +47,8 @@ nuxt vue axios egg Mongodb
   
   4.图片上传
     文件管理 fs-extra
+    
     图片拖拽和进度条功能
+    
+    图片格式限制 charCodeAt().toString(16).toUpperCase() （PNG：89 50 4E 47 0D 0A 1A 0A; GIF:47 49 46 38 39 61 or 47 49 46 38 37 61; JPG:  (start === 'FF D8') && (end === 'FF D9')）
+    
