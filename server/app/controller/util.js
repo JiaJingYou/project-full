@@ -24,7 +24,6 @@ class UtilController extends Controller {
     const {ctx} = this
     console.log(ctx.request);
     const file = ctx.request.files[0]
-    const {name} = ctx.request.body
     console.log(this.config.UPLOAD_DIR , file.filepath);
     await fse.move(file.filepath, this.config.UPLOAD_DIR + '/' + file.filename)
     this.success({code:200})
