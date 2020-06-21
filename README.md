@@ -43,3 +43,4 @@ nuxt vue axios egg Mongodb
   
   4.图片上传
     文件管理 fs-extra
+    图片拖拽和进度条功能
