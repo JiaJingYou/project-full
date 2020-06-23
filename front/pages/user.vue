@@ -3,12 +3,20 @@
         <h1>用户中心</h1>
         <div ref="drag" id="drag"> 
             <input type="file" name="file" @change="handleFileChange">
+            <span>文件名称：{{file}}</span>
+            </br>
+            <span>可拖拽文件到此</span>
         </div>
         <div>
-            <el-progress :text-inside="true" :percentage="uploadProgress"></el-progress>
+            <el-progress :stroke-width="26" :text-inside="true" :percentage="uploadProgress"></el-progress>
         </div>
         <div>
             <el-button @click="uploadFile"> 上传</el-button>
+        </div>
+
+         <div>
+             <p>计算hash的进度</p>
+            <el-progress :stroke-width="26" :text-inside="true" :percentage="hashProgress"></el-progress>
         </div>
     </div>
 </template>
@@ -20,6 +28,7 @@
     text-align center
 </style>
 <script>
+const CHUNK_SIZE = 1*1024*1024
 import { log } from 'util'
 import { resolve } from 'url';
 export default {
@@ -30,7 +39,8 @@ export default {
     data(){
         return{
             file:null,
-            uploadProgress: 0
+            uploadProgress: 0,
+            hashProgress: 0
         }
     },
     methods:{
@@ -86,16 +96,51 @@ export default {
         async isImage(file){
             return this.isGif(file)
         },
+        createFileChunk(file, size=CHUNK_SIZE) {
+            const chunks = []
+            let cur = 0
+            while(cur < file.size){
+                chunks.push({
+                    index: cur,
+                    file: file.slice(cur, cur+size)
+                })
+                cur+=size
+            }
+            return chunks
+        },
+        async calculateHashWorker(chunks) {
+            return new Promise(resolve=>{
+                this.worker = new Worker('/hash.js')
+                this.worker.postMessage({
+                    chunks: chunks
+                })
+                this.worker.onmessage = e => {
+                    const {progress, hash} = e.data
+                    this.hashProgress = Number(progress.toFixed(2))
+                    if(hash){
+                        resolve(hash)
+                    }
+                }
+            })
+        },
+        async calculateHashIdle() {
+
+        },
         async uploadFile(){
-            if(await this.isGif(this.file)) {
-                alert('是GIF格式')
-            }
-            if(await this.isJPG(this.file)) {
-                alert('是JPG格式')
-            }
-            if(await this.isPng(this.file)) {
-                alert('是PNG格式')
-            }
+            // if(await this.isGif(this.file)) {
+            //     alert('是GIF格式')
+            // }
+            // if(await this.isJPG(this.file)) {
+            //     alert('是JPG格式')
+            // }
+            // if(await this.isPng(this.file)) {
+            //     alert('是PNG格式')
+            // }
+            // return
+            const chunks = this.createFileChunk(this.file)
+            const hash = await this.calculateHashWorker(chunks)
+            console.log('chunks', chunks);
+            console.log('文件hash', hash);
             return
             const form = new FormData()
             form.append('file', 'file')
