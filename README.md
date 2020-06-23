@@ -50,5 +50,13 @@ nuxt vue axios egg Mongodb
     
     图片拖拽和进度条功能
     
-    图片格式限制 charCodeAt().toString(16).toUpperCase() （PNG：89 50 4E 47 0D 0A 1A 0A; GIF:47 49 46 38 39 61 or 47 49 46 38 37 61; JPG:  (start === 'FF D8') && (end === 'FF D9')）
+    图片格式限制 charCodeAt().toString(16).toUpperCase() （PNG：89 50 4E 47 0D 0A 1A 0A; GIF:47 49 46 38 39 61 or 47 49 46 38 37 61; JPG:       (start === 'FF D8') && (end === 'FF D9')）
+    
+5.大文件上传
+    web-worker计算md5值
+      
+      计算md5：spark-md5(支持增量计算)
+      
+      web-worker: onmessage() postMessage()
+      
     
