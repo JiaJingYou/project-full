@@ -8,6 +8,8 @@ module.exports = app => {
   router.get('/', controller.home.index);
   router.get('/captcha', controller.util.captcha);
   router.post('/uploadfile', controller.util.uploadfile);
+  router.post('/mergefile', controller.util.mergefile);
+  router.post('/checkfile', controller.util.checkfile);
   router.group({name:'user', prefix:'/user'}, router => {
     const {login, register, info, verify} = controller.user;
     router.post('/register', register)
