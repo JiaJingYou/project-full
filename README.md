@@ -63,5 +63,6 @@ nuxt vue axios egg Mongodb
       
       文件上传，文件合并功能
       
+      文件秒传功能:检查文件hash值是否存在
       
     
