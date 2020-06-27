@@ -11,6 +11,8 @@ nuxt vue axios egg Mongodb
   
   用户中心：/user
   
+  编辑：/editor
+  
   1.图片验证码 svgCaptcha.create({参数})
 
   2.邮箱验证码 nodemailer 邮箱服务器->注册邮箱
