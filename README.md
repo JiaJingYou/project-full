@@ -64,5 +64,23 @@ nuxt vue axios egg Mongodb
       文件上传，文件合并功能
       
       文件秒传功能:检查文件hash值是否存在
+
+      请求并发数控制：promise.all会造成页面一段时间卡顿
       
+      报错重试+报错次数限制实现
+
+6.富文本编辑器markdown
+
+    粘贴和拖拽图片
+    
+      addEventListener('paste'):e.clipboardData    
+      
+      addEventListener('drop'): e.dataTransfer
+      
+    高亮功能 highlight
+    
+    文章列表，点赞， 关注，草稿
+      
+
+    
     
