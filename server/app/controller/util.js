@@ -23,6 +23,10 @@ class UtilController extends Controller {
   }
   async uploadfile() {
     const {ctx} = this
+    if(Math.random()>0.1){
+      ctx.body.code = 500
+      return
+    }
     console.log(ctx.request);
     const file = ctx.request.files[0]
     const {hash, name} = ctx.request.body
