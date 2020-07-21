@@ -17,6 +17,9 @@
                 <el-input placeholder="验证码"></el-input>
                 <img class="pointer" @click="updateCaptcha" :src="captchaUrl">
             </el-form-item>
+            <el-form-item>
+                <el-button @click="loginBtn">登录</el-button>
+            </el-form-item>
         </el-form>
     </div>
 
@@ -34,6 +37,13 @@ export default {
     methods:{
         updateCaptcha(){
             this.captchaUrl = '/api/captcha?_t' + new Date().getTime()
+        },
+        loginBtn() {
+            this.$message.success('登录成功')
+            localStorage.setItem('token', 'test')
+            setTimeout(()=>{
+                this.$router.push('/')
+            }, 500)
         }
     }
 }
